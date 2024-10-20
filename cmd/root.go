@@ -15,7 +15,11 @@ copy the desired template files to your project directories with a single comman
 
 Use 'sc [command] --help' for more information about a specific command.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Welcome to SnapCode! Use 'sc --help' to see the available commands.")
+		if len(args) != 0 {
+			commandRun(args)
+		} else {
+			fmt.Println("Welcome to SnapCode! Use 'sc --help' to see the available commands.")
+		}
 	},
 }
 
