@@ -1,4 +1,3 @@
 CREATE TABLE IF NOT EXISTS "users" (
-    id VARCHAR(36) PRIMARY KEY,
-    user_name TEXT UNIQUE NOT NULL
+    user_name TEXT PRIMARY KEY
 )
