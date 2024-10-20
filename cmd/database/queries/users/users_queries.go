@@ -27,6 +27,20 @@ func (uq *UsersQueries) Create(
 	}
 }
 
+func (uq *UsersQueries) Count() int {
+	queryPath := "cmd/database/queries/users/usersQueries/createQuery.sql"
+	query := utils.ReadFile(queryPath)
+
+	var count int
+
+	_, err := uq.dbcon.Query(query, &count)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return count
+}
+
 func (uq *UsersQueries) GetAll() []models.UserModel {
 	queryPath := "cmd/database/queries/users/usersQueries/getAllQuery.sql"
 	query := utils.ReadFile(queryPath)
@@ -57,11 +71,11 @@ func (uq *UsersQueries) GetAll() []models.UserModel {
 	return users
 }
 
-func (uq *UsersQueries) UpdateOneByUserName(
+func (uq *UsersQueries) UpdateByUserName(
 	userName string,
 	updateUser models.UpdateUserModel,
 ) {
-	queryPath := "cmd/database/queries/users/usersQueries/updateOneByUserNameQuery.sql"
+	queryPath := "cmd/database/queries/users/usersQueries/updateByUserNameQuery.sql"
 	query := utils.ReadFile(queryPath)
 
 	_, err := uq.dbcon.Exec(query, userName, updateUser.UserName)
@@ -70,10 +84,10 @@ func (uq *UsersQueries) UpdateOneByUserName(
 	}
 }
 
-func (uq *UsersQueries) DeleteOneByUserName(
+func (uq *UsersQueries) DeleteByUserName(
 	userName string,
 ) {
-	queryPath := "cmd/database/queries/users/usersQueries/deleteOneByUserNameQuery.sql"
+	queryPath := "cmd/database/queries/users/usersQueries/deleteByUserNameQuery.sql"
 	query := utils.ReadFile(queryPath)
 
 	_, err := uq.dbcon.Exec(query, userName)

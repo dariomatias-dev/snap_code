@@ -16,11 +16,40 @@ copy the desired template files to your project directories with a single comman
 Use 'sc [command] --help' for more information about a specific command.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 0 {
-			commandRun(args)
+			commandRun()
 		} else {
 			fmt.Println("Welcome to SnapCode! Use 'sc --help' to see the available commands.")
 		}
 	},
+}
+
+var isUserCreate bool
+var isUserUpdate bool
+
+var setUserNameCmd = &cobra.Command{
+	Use:   "username",
+	Short: "Set UserName from GitHub",
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) != 0 {
+			managerUsers := NewManagerUsers()
+
+			if isUserCreate {
+				managerUsers.Set(args[0])
+			} else if isUserUpdate {
+				managerUsers.UpdateByUserName(args[0])
+			} else {
+				fmt.Println("")
+			}
+		} else {
+			fmt.Println("Enter the GitHub username. Use the flag \"-s\" or \"-u\" to set or update the user.")
+		}
+	},
+}
+
+func init() {
+	setUserNameCmd.Flags().BoolVarP(&isUserCreate, "set", "s", false, "Set User")
+	setUserNameCmd.Flags().BoolVarP(&isUserUpdate, "update", "u", false, "Update User")
+	rootCmd.AddCommand(setUserNameCmd)
 }
 
 func Execute() {
