@@ -9,7 +9,7 @@ import (
 
 func NewManagerUsers() ManagerUsers {
 	dbcon := database.InitializeDatabase()
-	usersQueries := users.NewUsers(dbcon)
+	usersQueries := users.NewUsersQueries(dbcon)
 
 	return ManagerUsers{
 		usersQueries: usersQueries,

@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func NewUsers(dbcon *sql.DB) *UsersQueries {
+func NewUsersQueries(dbcon *sql.DB) *UsersQueries {
 	return &UsersQueries{dbcon: dbcon}
 }
 

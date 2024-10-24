@@ -1,7 +1,6 @@
 package solutions
 
 import (
-	"dariomatias-dev/snap_code/cmd/database"
 	"dariomatias-dev/snap_code/cmd/database/models/solution"
 	"dariomatias-dev/snap_code/cmd/utils"
 	"database/sql"
@@ -9,9 +8,7 @@ import (
 	"log"
 )
 
-func NewSolutionsQueries() *SolutionsQueries {
-	dbcon := database.InitializeDatabase()
-
+func NewSolutionsQueries(dbcon *sql.DB) *SolutionsQueries {
 	return &SolutionsQueries{dbcon: dbcon}
 }
 

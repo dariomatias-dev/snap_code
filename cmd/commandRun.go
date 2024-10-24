@@ -8,7 +8,7 @@ import (
 
 func commandRun() {
 	dbcon := database.InitializeDatabase()
-	usersQueries := users.NewUsers(dbcon)
+	usersQueries := users.NewUsersQueries(dbcon)
 
 	if usersQueries.Count() == 0 {
 		fmt.Println("Defina o nome do usuário do GitHub")
