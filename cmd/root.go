@@ -52,7 +52,9 @@ var solutionFileName string
 var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "",
-	Run: func(cmd *cobra.Command, args []string) {},
+	Run: func(cmd *cobra.Command, args []string) {
+		Create(args)
+	},
 }
 
 func init() {
