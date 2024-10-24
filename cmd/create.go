@@ -102,4 +102,6 @@ func Create(
 	file.Truncate(0)
 
 	file.Write(body)
+
+	fmt.Printf("File created in `%s`.\n", path)
 }
