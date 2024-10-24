@@ -1,13 +1,17 @@
 package solutions
 
 import (
+	"dariomatias-dev/snap_code/cmd/database"
 	"dariomatias-dev/snap_code/cmd/database/models/solution"
 	"dariomatias-dev/snap_code/cmd/utils"
 	"database/sql"
+	"errors"
 	"log"
 )
 
-func NewSolutionsQueries(dbcon *sql.DB) *SolutionsQueries {
+func NewSolutionsQueries() *SolutionsQueries {
+	dbcon := database.InitializeDatabase()
+
 	return &SolutionsQueries{dbcon: dbcon}
 }
 
@@ -16,20 +20,28 @@ type SolutionsQueries struct {
 }
 
 func (sq SolutionsQueries) Create(
-	solution solution.SolutionModel,
-) {
+	createSolution solution.SolutionModel,
+) error {
+	solution := sq.GetByKey(createSolution.Key)
+
+	if solution != nil {
+		return errors.New("the key already exists")
+	}
+
 	queryPath := "cmd/database/queries/solutions/queries/createQuery.sql"
 	query := utils.ReadFile(queryPath)
 
-	_, err := sq.dbcon.Exec(query, solution.Key, solution.FileName)
+	_, err := sq.dbcon.Exec(query, createSolution.Key, createSolution.FileName)
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	return nil
 }
 
 func (sq SolutionsQueries) GetByKey(
 	solutionKey string,
-) solution.SolutionModel {
+) *solution.SolutionModel {
 	queryPath := "cmd/database/queries/solutions/queries/getByKeyQuery.sql"
 	query := utils.ReadFile(queryPath)
 
@@ -41,9 +53,13 @@ func (sq SolutionsQueries) GetByKey(
 		log.Fatalln(err)
 	}
 
+	if !rows.Next() {
+		return nil
+	}
+
 	rows.Scan(&key, &fileName)
 
-	return solution.SolutionModel{
+	return &solution.SolutionModel{
 		Key:      key,
 		FileName: fileName,
 	}

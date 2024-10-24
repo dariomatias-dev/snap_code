@@ -46,10 +46,23 @@ var setUserNameCmd = &cobra.Command{
 	},
 }
 
+var solutionKey string
+var solutionFileName string
+
+var createCmd = &cobra.Command{
+	Use:   "create",
+	Short: "",
+	Run: func(cmd *cobra.Command, args []string) {},
+}
+
 func init() {
 	setUserNameCmd.Flags().BoolVarP(&isUserCreate, "set", "s", false, "Set User")
 	setUserNameCmd.Flags().BoolVarP(&isUserUpdate, "update", "u", false, "Update User")
 	rootCmd.AddCommand(setUserNameCmd)
+
+	createCmd.Flags().StringVarP(&solutionKey, "name", "n", "", "Define the key")
+	createCmd.Flags().StringVarP(&solutionFileName, "filename", "f", "", "Define the filename")
+	rootCmd.AddCommand(createCmd)
 }
 
 func Execute() {
