@@ -4,6 +4,7 @@ import (
 	"dariomatias-dev/snap_code/cmd/database"
 	models "dariomatias-dev/snap_code/cmd/database/models/user"
 	"dariomatias-dev/snap_code/cmd/database/queries/users"
+	"dariomatias-dev/snap_code/cmd/utils"
 	"fmt"
 )
 
@@ -24,6 +25,10 @@ func (mu *ManagerUsers) Set(
 	userName string,
 ) {
 	if mu.usersQueries.Count() == 0 {
+		if !utils.CheckGitHubUserExistence(userName) {
+			return
+		}
+
 		mu.usersQueries.Create(
 			models.CreateUserModel{
 				UserName: userName,
@@ -45,6 +50,10 @@ func (mu *ManagerUsers) UpdateByUserName(
 		if user.UserName == newUserName {
 			fmt.Println("The username is already in use.")
 
+			return
+		}
+
+		if !utils.CheckGitHubUserExistence(newUserName) {
 			return
 		}
 

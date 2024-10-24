@@ -35,7 +35,7 @@ var setUserNameCmd = &cobra.Command{
 		if setUserName != "" {
 			managerUsers.Set(setUserName)
 		} else if updateUserUpdate != "" {
-			managerUsers.UpdateByUserName(setUserName)
+			managerUsers.UpdateByUserName(updateUserUpdate)
 		} else {
 			fmt.Println("Enter the GitHub username. Use the flag `-s` or `-u` followed by the username to set or update the username.")
 		}
