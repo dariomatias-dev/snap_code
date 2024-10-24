@@ -28,12 +28,12 @@ func (uq *UsersQueries) Create(
 }
 
 func (uq *UsersQueries) Count() int {
-	queryPath := "cmd/database/queries/users/usersQueries/createQuery.sql"
+	queryPath := "cmd/database/queries/users/usersQueries/countQuery.sql"
 	query := utils.ReadFile(queryPath)
 
 	var count int
 
-	_, err := uq.dbcon.Query(query, &count)
+	err := uq.dbcon.QueryRow(query).Scan(&count)
 	if err != nil {
 		log.Fatalln(err)
 	}

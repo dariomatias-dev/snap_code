@@ -16,6 +16,11 @@ func Create(
 	args []string,
 ) {
 	dbcon := database.InitializeDatabase()
+
+	if !checkUserExists(dbcon) {
+		return
+	}
+
 	solutionsQueries := solutions.NewSolutionsQueries(dbcon)
 
 	if len(args) == 0 {
