@@ -21,11 +21,53 @@ func Create(
 		return
 	}
 
+	usersQueries := users.NewUsersQueries(dbcon)
+	user := usersQueries.GetAll()[0]
+
 	solutionsQueries := solutions.NewSolutionsQueries(dbcon)
 
 	if len(args) == 0 {
 		if solutionKey != "" && solutionFileName != "" {
-			err := solutionsQueries.Create(
+			// Check if the solutions repository exists.
+			url := fmt.Sprintf(
+				"https://api.github.com/repos/%s/solutions",
+				user.UserName,
+			)
+			resp, err := http.Get(url)
+			if err != nil {
+				log.Fatalln(err)
+			}
+
+			if resp.StatusCode == 404 {
+				fmt.Printf(
+					"The `solutions` repository does not exist for the user `%s`. Please create it first, then register the solution.\n",
+					user.UserName,
+				)
+
+				return
+			}
+
+			// Check if the specified filename exists within the solutions repository.
+			url = fmt.Sprintf(
+				"https://api.github.com/repos/%s/solutions/contents/%s",
+				user.UserName,
+				solutionFileName,
+			)
+			resp, err = http.Get(url)
+			if err != nil {
+				log.Fatalln(err)
+			}
+
+			if resp.StatusCode == 404 {
+				fmt.Printf(
+					"The file `%s` does not exist within the `solutions` repository. Ensure the file exists before registering the solution.\n",
+					solutionFileName,
+				)
+
+				return
+			}
+
+			err = solutionsQueries.Create(
 				solution.SolutionModel{
 					Key:      solutionKey,
 					FileName: solutionFileName,
@@ -33,7 +75,7 @@ func Create(
 			)
 
 			if err != nil {
-				log.Fatal(err)
+				log.Fatalln(err)
 			} else {
 				fmt.Println("Command created.")
 			}
@@ -61,9 +103,6 @@ func Create(
 
 		return
 	}
-
-	usersQueries := users.NewUsersQueries(dbcon)
-	user := usersQueries.GetAll()[0]
 
 	path := args[1]
 
