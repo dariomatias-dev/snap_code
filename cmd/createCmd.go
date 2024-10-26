@@ -1,6 +1,10 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"dariomatias-dev/snap_code/cmd/create"
+
+	"github.com/spf13/cobra"
+)
 
 var solutionKey string
 var solutionFileName string
@@ -9,7 +13,11 @@ var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "",
 	Run: func(cmd *cobra.Command, args []string) {
-		Create(args)
+		create.Create(
+			args,
+			solutionKey,
+			solutionFileName,
+		)
 	},
 }
 

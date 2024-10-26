@@ -1,4 +1,4 @@
-package cmd
+package create
 
 import (
 	"dariomatias-dev/snap_code/cmd/database/queries/users"
