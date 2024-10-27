@@ -1,21 +1,20 @@
 package create
 
 import (
-	"dariomatias-dev/snap_code/cmd/database"
 	"dariomatias-dev/snap_code/cmd/database/models/solution"
 	"dariomatias-dev/snap_code/cmd/database/queries/solutions"
 	"dariomatias-dev/snap_code/cmd/database/queries/users"
+	"database/sql"
 	"fmt"
 	"log"
 )
 
 func Create(
+	dbcon *sql.DB,
 	args []string,
 	solutionKey string,
 	solutionFileName string,
 ) {
-	dbcon := database.InitializeDatabase()
-
 	if !checkUserExists(dbcon) {
 		return
 	}
