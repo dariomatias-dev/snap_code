@@ -52,7 +52,7 @@ func Create(
 		} else if solutionFileName != "" {
 			fmt.Println("Specify the key name using the `-n` flag.")
 		} else {
-			fmt.Println("Invalid Command.")
+			fmt.Println("Invalid Command. Use `sc help` to get help.")
 		}
 
 		return
@@ -75,6 +75,6 @@ func Create(
 	createFile(
 		args[1],
 		user.UserName,
-		solutionFileName,
+		solution.FileName,
 	)
 }
