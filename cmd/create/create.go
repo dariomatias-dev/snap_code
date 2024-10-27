@@ -31,7 +31,7 @@ func Create(
 				return
 			}
 
-			if !checkSolutionFile(user.UserName, solutionFileName) {
+			if !checkSolutionFile(user.Username, solutionFileName) {
 				return
 			}
 
@@ -67,14 +67,17 @@ func Create(
 	solution := solutionsQueries.GetByKey(args[0])
 
 	if solution == nil {
-		fmt.Println("Solution does not exist. Use \"sc create -n [key name] -f [file name]\" to create it.")
+		fmt.Printf(
+			"Solution '%s' does not exist. To create it, use the command: `sc create -n [key name] -f [file name]`.\n",
+			args[0],
+		)
 
 		return
 	}
 
 	createFile(
 		args[1],
-		user.UserName,
+		user.Username,
 		solution.FileName,
 	)
 }

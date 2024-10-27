@@ -16,7 +16,7 @@ func checkUserExists(
 	userExists := len(user) != 0
 
 	if !userExists {
-		fmt.Println("Set the username. Use `sc username -s [username]` to set the GitHub username.")
+		fmt.Println("Use `sc username [username]` to set the GitHub username.")
 	}
 
 	return userExists

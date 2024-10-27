@@ -12,7 +12,7 @@ func checkSolutionsRepo(
 ) bool {
 	url := fmt.Sprintf(
 		"https://api.github.com/repos/%s/solutions",
-		user.UserName,
+		user.Username,
 	)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -24,7 +24,7 @@ func checkSolutionsRepo(
 	if !repoExists {
 		fmt.Printf(
 			"The `solutions` repository does not exist for the user `%s`. Please create it first, then register the solution.\n",
-			user.UserName,
+			user.Username,
 		)
 	}
 

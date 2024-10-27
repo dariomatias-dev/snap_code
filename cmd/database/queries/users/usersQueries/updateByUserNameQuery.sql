@@ -1,6 +1,6 @@
 UPDATE
     "users"
 SET
-    user_name = COALESCE($2, user_name)
+    user_name = COALESCE(?, user_name)
 WHERE
-    user_name = $1;
+    user_name = ?;

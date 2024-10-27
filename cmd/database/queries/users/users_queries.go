@@ -21,7 +21,7 @@ func (uq *UsersQueries) Create(
 	queryPath := "cmd/database/queries/users/usersQueries/createQuery.sql"
 	query := utils.ReadFile(queryPath)
 
-	_, err := uq.dbcon.Exec(query, createUser.UserName)
+	_, err := uq.dbcon.Exec(query, createUser.Username)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -54,15 +54,15 @@ func (uq *UsersQueries) GetAll() []models.UserModel {
 	users := []models.UserModel{}
 
 	for response.Next() {
-		var userName string
+		var username string
 
-		err := response.Scan(&userName)
+		err := response.Scan(&username)
 		if err != nil {
 			log.Fatalln(err)
 		}
 
 		user := models.UserModel{
-			UserName: userName,
+			Username: username,
 		}
 
 		users = append(users, user)
@@ -71,26 +71,26 @@ func (uq *UsersQueries) GetAll() []models.UserModel {
 	return users
 }
 
-func (uq *UsersQueries) UpdateByUserName(
-	userName string,
+func (uq *UsersQueries) UpdateByUsername(
+	username string,
 	updateUser models.UpdateUserModel,
 ) {
-	queryPath := "cmd/database/queries/users/usersQueries/updateByUserNameQuery.sql"
+	queryPath := "cmd/database/queries/users/usersQueries/updateByUsernameQuery.sql"
 	query := utils.ReadFile(queryPath)
 
-	_, err := uq.dbcon.Exec(query, userName, updateUser.UserName)
+	_, err := uq.dbcon.Exec(query, updateUser.Username, username)
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
-func (uq *UsersQueries) DeleteByUserName(
-	userName string,
+func (uq *UsersQueries) DeleteByUsername(
+	username string,
 ) {
-	queryPath := "cmd/database/queries/users/usersQueries/deleteByUserNameQuery.sql"
+	queryPath := "cmd/database/queries/users/usersQueries/deleteByUsernameQuery.sql"
 	query := utils.ReadFile(queryPath)
 
-	_, err := uq.dbcon.Exec(query, userName)
+	_, err := uq.dbcon.Exec(query, username)
 	if err != nil {
 		log.Fatalln(err)
 	}

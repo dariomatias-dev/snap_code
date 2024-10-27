@@ -21,51 +21,43 @@ type ManagerUsers struct {
 	usersQueries *users.UsersQueries
 }
 
-func (mu *ManagerUsers) Set(
-	userName string,
+func (mu *ManagerUsers) Update(
+	username string,
 ) {
 	if mu.usersQueries.Count() == 0 {
-		if !utils.CheckGitHubUserExistence(userName) {
+		if !utils.CheckGitHubUserExistence(username) {
 			return
 		}
 
 		mu.usersQueries.Create(
 			models.CreateUserModel{
-				UserName: userName,
+				Username: username,
 			},
 		)
 
 		fmt.Println("Username set.")
 	} else {
-		fmt.Println("Username already exists. Use `sc username -u [username]` to update the username.")
-	}
-}
-
-func (mu *ManagerUsers) UpdateByUsername(
-	newUserName string,
-) {
-	if mu.usersQueries.Count() != 0 {
 		user := mu.usersQueries.GetAll()[0]
 
-		if user.UserName == newUserName {
+		if user.Username == username {
 			fmt.Println("The username is already in use.")
 
 			return
 		}
 
-		if !utils.CheckGitHubUserExistence(newUserName) {
+		if !utils.CheckGitHubUserExistence(username) {
 			return
 		}
 
-		mu.usersQueries.UpdateByUserName(
-			user.UserName,
+		mu.usersQueries.UpdateByUsername(
+			user.Username,
 			models.UpdateUserModel{
-				UserName: &newUserName,
+				Username: &username,
 			},
 		)
 
+		fmt.Println(mu.usersQueries.GetAll())
+
 		fmt.Println("Username updated.")
-	} else {
-		fmt.Println("User does not exist.\nUse \"sc username -s [username]\" to set the GitHub username.")
 	}
 }

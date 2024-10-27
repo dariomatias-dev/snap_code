@@ -1,5 +1,5 @@
 package models
 
 type CreateUserModel struct {
-	UserName string
+	Username string
 }
