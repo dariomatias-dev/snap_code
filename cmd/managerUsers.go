@@ -41,7 +41,7 @@ func (mu *ManagerUsers) Set(
 	}
 }
 
-func (mu *ManagerUsers) UpdateByUserName(
+func (mu *ManagerUsers) UpdateByUsername(
 	newUserName string,
 ) {
 	if mu.usersQueries.Count() != 0 {
