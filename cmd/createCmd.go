@@ -10,6 +10,7 @@ import (
 
 var solutionKey string
 var solutionFileName string
+var updateSolution bool
 var deleteKey bool
 
 var createCmd = &cobra.Command{
@@ -29,6 +30,25 @@ var createCmd = &cobra.Command{
 			}
 
 			return
+		} else if updateSolution {
+			if len(args) != 0 {
+				if solutionKey == "" && solutionFileName == "" {
+					fmt.Println("Set the value you want to update with -n for the key name, or -f for the file name.")
+
+					return
+				}
+
+				create.UpdateSolution(
+					dbcon,
+					args[0],
+					solutionKey,
+					solutionFileName,
+				)
+			} else {
+				fmt.Println("Enter the key name of the solution you want to update.")
+			}
+
+			return
 		}
 
 		create.Create(
@@ -43,7 +63,8 @@ var createCmd = &cobra.Command{
 func init() {
 	createCmd.Flags().StringVarP(&solutionKey, "name", "n", "", "Define the key")
 	createCmd.Flags().StringVarP(&solutionFileName, "filename", "f", "", "Define the filename")
-	createCmd.Flags().BoolVarP(&deleteKey, "delete", "d", false, "Delete key")
+	createCmd.Flags().BoolVarP(&updateSolution, "update", "u", false, "Update solution")
+	createCmd.Flags().BoolVarP(&deleteKey, "delete", "d", false, "Delete solution")
 
 	rootCmd.AddCommand(createCmd)
 }

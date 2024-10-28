@@ -50,6 +50,7 @@ func (sq SolutionsQueries) GetByKey(
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer rows.Close()
 
 	if !rows.Next() {
 		return nil
@@ -71,6 +72,7 @@ func (sq SolutionsQueries) GetAll() []solution.SolutionModel {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer rows.Close()
 
 	solutions := []solution.SolutionModel{}
 
@@ -94,14 +96,22 @@ func (sq SolutionsQueries) GetAll() []solution.SolutionModel {
 func (sq SolutionsQueries) UpdateByKey(
 	key string,
 	updateSolution solution.UpdateSolutionModel,
-) {
+) error {
+	solution := sq.GetByKey(key)
+
+	if solution == nil {
+		return fmt.Errorf("error: the key `%s` does not exist", key)
+	}
+
 	queryPath := "cmd/database/queries/solutions/queries/updateByKeyQuery.sql"
 	query := utils.ReadFile(queryPath)
 
-	_, err := sq.dbcon.Exec(query, key, updateSolution.Key, updateSolution.FileName)
+	_, err := sq.dbcon.Exec(query, updateSolution.Key, updateSolution.FileName, key)
 	if err != nil {
-		log.Fatalln(err)
+		return fmt.Errorf("failed to execute update query: %w", err)
 	}
+
+	return nil
 }
 
 func (sq SolutionsQueries) DeleteByKey(
