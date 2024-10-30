@@ -97,12 +97,6 @@ func (sq SolutionsQueries) UpdateByKey(
 	key string,
 	updateSolution solution.UpdateSolutionModel,
 ) error {
-	solution := sq.GetByKey(key)
-
-	if solution == nil {
-		return fmt.Errorf("error: the key `%s` does not exist", key)
-	}
-
 	queryPath := "cmd/database/queries/solutions/queries/updateByKeyQuery.sql"
 	query := utils.ReadFile(queryPath)
 
