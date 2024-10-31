@@ -34,6 +34,14 @@ func Create(
 				return
 			}
 
+			solutionByKey := solutionsQueries.GetByKey(solutionKey)
+
+			if solutionByKey != nil {
+				fmt.Printf("error: the key already exists.\n")
+
+				return
+			}
+
 			err := solutionsQueries.Create(
 				solution.SolutionModel{
 					Key:      solutionKey,

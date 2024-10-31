@@ -4,7 +4,6 @@ import (
 	"dariomatias-dev/snap_code/cmd/database/models/solution"
 	"dariomatias-dev/snap_code/cmd/utils"
 	"database/sql"
-	"errors"
 	"fmt"
 	"log"
 )
@@ -20,12 +19,6 @@ type SolutionsQueries struct {
 func (sq SolutionsQueries) Create(
 	createSolution solution.SolutionModel,
 ) error {
-	solution := sq.GetByKey(createSolution.Key)
-
-	if solution != nil {
-		return errors.New("error: the key already exists")
-	}
-
 	queryPath := "cmd/database/queries/solutions/queries/createQuery.sql"
 	query := utils.ReadFile(queryPath)
 
@@ -111,12 +104,6 @@ func (sq SolutionsQueries) UpdateByKey(
 func (sq SolutionsQueries) DeleteByKey(
 	key string,
 ) error {
-	solution := sq.GetByKey(key)
-
-	if solution == nil {
-		return fmt.Errorf("error: the key `%s` does not exist", key)
-	}
-
 	queryPath := "cmd/database/queries/solutions/queries/deleteByKeyQuery.sql"
 	query := utils.ReadFile(queryPath)
 

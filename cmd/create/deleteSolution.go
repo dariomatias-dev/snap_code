@@ -11,6 +11,14 @@ func DeleteSolution(
 	solutionKey string,
 ) {
 	solutionsQueries := solutions.NewSolutionsQueries(dbcon)
+	solution := solutionsQueries.GetByKey(solutionKey)
+
+	if solution == nil {
+		fmt.Printf("error: the key `%s` does not exist.\n", solutionKey)
+
+		return
+	}
+
 	err := solutionsQueries.DeleteByKey(solutionKey)
 
 	if err != nil {
