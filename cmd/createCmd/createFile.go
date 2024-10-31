@@ -1,4 +1,4 @@
-package create
+package createcmd
 
 import (
 	"fmt"

@@ -1,7 +1,6 @@
-package cmd
+package createcmd
 
 import (
-	"dariomatias-dev/snap_code/cmd/create"
 	"dariomatias-dev/snap_code/cmd/database"
 	"fmt"
 
@@ -21,7 +20,7 @@ var createCmd = &cobra.Command{
 
 		if deleteKey {
 			if len(args) != 0 {
-				create.DeleteSolution(
+				DeleteSolution(
 					dbcon,
 					args[0],
 				)
@@ -38,7 +37,7 @@ var createCmd = &cobra.Command{
 					return
 				}
 
-				create.UpdateSolution(
+				UpdateSolution(
 					dbcon,
 					args[0],
 					solutionKey,
@@ -51,7 +50,7 @@ var createCmd = &cobra.Command{
 			return
 		}
 
-		create.Create(
+		Create(
 			dbcon,
 			args,
 			solutionKey,
@@ -60,7 +59,9 @@ var createCmd = &cobra.Command{
 	},
 }
 
-func init() {
+func Load(
+	rootCmd *cobra.Command,
+) {
 	createCmd.Flags().StringVarP(&solutionKey, "name", "n", "", "Define the key")
 	createCmd.Flags().StringVarP(&solutionFileName, "filename", "f", "", "Define the filename")
 	createCmd.Flags().BoolVarP(&updateSolution, "update", "u", false, "Update solution")

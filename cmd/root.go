@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	createcmd "dariomatias-dev/snap_code/cmd/createCmd"
 	"fmt"
 	"log"
 
@@ -17,6 +18,10 @@ Use 'sc [command] --help' for more information about a specific command.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Welcome to SnapCode! Use 'sc --help' to see the available commands.")
 	},
+}
+
+func init() {
+	createcmd.Load(rootCmd)
 }
 
 func Execute() {

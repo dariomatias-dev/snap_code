@@ -1,4 +1,4 @@
-package create
+package createcmd
 
 import (
 	models "dariomatias-dev/snap_code/cmd/database/models/user"
